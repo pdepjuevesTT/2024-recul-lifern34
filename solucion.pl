@@ -1,11 +1,11 @@
 %% PUNTO 1)
 %% tienePropiedad(Persona,Propiedad).
 tienePropiedad(juan,casa(120)).
+tienePropiedad(fer,casa(110)).
 tienePropiedad(nico,departamento(3,2)).
 tienePropiedad(alf,departamento(3,1)).
-tienePropiedad(julian,loft(2000)).
 tienePropiedad(vale,departamento(4,1)).
-tienePropiedad(fer,casa(110)).
+tienePropiedad(julian,loft(2000)).
 %% En el futuro ver que hacer con Rocio, se quiere mudar pero NO tiene propiedad.
 
 %% viveEn(Persona,Barrio).
