@@ -53,7 +53,6 @@ esBarata(departamento(1,_)).
 esBarata(departamento(2,_)).
 
 %% EJ 4)
-%% esto va a servir para verificar al final que la lista devuelta no es una lista vacia []
 %% valorDePropiedad(Persona,ValorInmueble).
 valorDePropiedad(juan,150000).
 valorDePropiedad(nico,80000).
@@ -63,13 +62,19 @@ valorDePropiedad(vale,95000).
 valorDePropiedad(fer,60000).
 
 puedoComprar(PropiedadesPosibles,Plata,PlataRestante):-
-    findall(Persona,(valorDePropiedad(Persona,Valor),descontarPlata(Plata,Valor,PlataRestante)),Propiedades),
-    sublista(Propiedades,PropiedadesPosibles),
-    PropiedadesPosibles \= [].
+    findall(Persona,(valorDePropiedad(Persona,Valor),meAlcanza(Plata,Valor,Sobrante),Sobrante >= 0),Propiedades), %% Lista de nombres de las personas a las que le puedo comprar la casa
+    sublista(Propiedades,PropiedadesPosibles), %% Hago la partición de todas las posibles combinaciones de listas
+    flatten(PropiedadesPosibles, PropiedadesAComprar), %% aplano la lista para que me queden todas las posibles listas fuera de la lista de listas
+    descontarEfectivo(Plata,PropiedadesAComprar,PlataRestante), %% Genero una lista de propiedades que va avanzando de propiedad si la plata me alcanza.
+    PropiedadesAComprar \= [].
 
-descontarPlata(Plata,Valor,PlataRestante):-
-    PlataRestante is Plata - Valor,
-    PlataRestante >= 0.
+meAlcanza(Plata,Valor,PlataRestante):-
+    PlataRestante is Plata - Valor.
+
+descontarEfectivo(Plata,[PrimeraPropiedad|DemasPropiedades],PlataFinal):-
+    valorDePropiedad(PrimeraPropiedad,Valor),
+    meAlcanza(Plata,Valor,PlataRestante),
+    descontarEfectivo(PlataRestante,DemasPropiedades,PlataFinal).
 
 sublista([],[]).
 sublista([_|Cola],Sublista):- sublista(Cola,Sublista).
