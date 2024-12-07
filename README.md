@@ -1,5 +1,5 @@
 # Paradigma lógico
 
-Consigna:
+Consigna: PROLOGPIEDADES
 
-Nombre:
+Nombre: Lisandro Nahuel Fernández
