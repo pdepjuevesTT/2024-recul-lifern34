@@ -17,9 +17,14 @@ viveEn(vale,flores).
 viveEn(fer,flores).
 
 %% PUNTO 2)
+%% Predicado auxiliar:
+propiedadPerteneceABarrio(Barrio,Propiedad):-
+    tienePropiedad(Persona,Propiedad),
+    viveEn(Persona,Barrio).
+
 barrioCopado(Barrio):-
     viveEn(_,Barrio),
-    forall((tienePropiedad(Persona,Propiedad),viveEn(Persona,Barrio)),esCopada(Propiedad)).
+    forall(propiedadPerteneceABarrio(Barrio,Propiedad),esCopada(Propiedad)).
 
 esCopada(casa(MetrosCuadrados)):-
     MetrosCuadrados > 100.
@@ -36,7 +41,7 @@ esCopada(loft(FechaDeConstruccion)):-
 %% PUNTO 3)
 barrioCaro(Barrio):-
     viveEn(_,Barrio),
-    forall((tienePropiedad(Persona,Propiedad),viveEn(Persona,Barrio)),not(esBarata(Propiedad))).
+    forall(propiedadPerteneceABarrio(Barrio,Propiedad),not(esBarata(Propiedad))).
 
 esBarata(loft(FechaDeConstruccion)):-
     FechaDeConstruccion < 2005.
@@ -58,7 +63,7 @@ valorDePropiedad(vale,95000).
 valorDePropiedad(fer,60000).
 
 puedoComprar(PropiedadesPosibles,Plata,PlataRestante):-
-    findall(Propiedad,(valorDePropiedad(Persona,Valor),descontarPlata(Plata,Valor,PlataRestante)),Propiedades),
+    findall(Persona,(valorDePropiedad(Persona,Valor),descontarPlata(Plata,Valor,PlataRestante)),Propiedades),
     sublista(Propiedades,PropiedadesPosibles),
     PropiedadesPosibles \= [].
 
@@ -68,4 +73,4 @@ descontarPlata(Plata,Valor,PlataRestante):-
 
 sublista([],[]).
 sublista([_|Cola],Sublista):- sublista(Cola,Sublista).
-sublista([Cola|Cabeza],[Cabeza,Sublista]):- sublista(Cola,Sublista).
+sublista([Cabeza|Cola],[Cabeza|Sublista]):- sublista(Cola,Sublista).
