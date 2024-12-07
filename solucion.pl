@@ -71,6 +71,7 @@ puedoComprar(PropiedadesPosibles,Plata,PlataRestante):-
 meAlcanza(Plata,Valor,PlataRestante):-
     PlataRestante is Plata - Valor.
 
+descontarEfectivo(_,[],_).
 descontarEfectivo(Plata,[PrimeraPropiedad|DemasPropiedades],PlataFinal):-
     valorDePropiedad(PrimeraPropiedad,Valor),
     meAlcanza(Plata,Valor,PlataRestante),
